@@ -4,3 +4,11 @@ class ShortenerBaseError(Exception):
 
 class NoOriginalUrlFoundError(ShortenerBaseError):
     pass
+
+
+class SlugAlreadyExistsError(ShortenerBaseError):
+    pass
+
+
+class InvalidURL_Error(ShortenerBaseError):
+    pass
