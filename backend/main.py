@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body, status, HTTPException
+from fastapi import FastAPI, Body, status, HTTPException, Depends
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -9,8 +9,12 @@ from src.exception import (
     SlugAlreadyExistsError,
     InvalidURL_Error,
 )
-
+from src.dependencies import get_session
 from db.crud import clear_all_pairs
+
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from typing import Annotated
 
 
 app = FastAPI(lifespan=lifespan)
@@ -29,9 +33,12 @@ async def index_page():
 
 
 @app.post("/slug")
-async def process_url_pair(original_url: str = Body(embed=True)):
+async def process_url_pair(
+    original_url: Annotated[str, Body(embed=True)],
+    session: Annotated[AsyncSession, Depends(get_session)],
+):
     try:
-        slug = await make_urls_pair(original_url)
+        slug = await make_urls_pair(original_url, session)
     except InvalidURL_Error:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -47,9 +54,11 @@ async def process_url_pair(original_url: str = Body(embed=True)):
 
 
 @app.get("/{slug}")
-async def redirect_on_original(slug: str):
+async def redirect_on_original(
+    slug: str, session: Annotated[AsyncSession, Depends(get_session)]
+):
     try:
-        original_url = await get_url_by_slug(slug)
+        original_url = await get_url_by_slug(slug, session)
     except NoOriginalUrlFoundError:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -60,6 +69,6 @@ async def redirect_on_original(slug: str):
 
 # TODO: admin handler?
 @app.delete("/clear_urls")
-async def clear_all_urls():
-    await clear_all_pairs()
+async def clear_all_urls(session: Annotated[AsyncSession, Depends(get_session)]):
+    await clear_all_pairs(session)
     return {"message": "All URL pairs have been deleted from the database."}
