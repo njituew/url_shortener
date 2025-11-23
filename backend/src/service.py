@@ -9,17 +9,17 @@ from src.url_validator import is_valid_url
 
 
 async def make_urls_pair(original_url: str) -> str:
-    async def __generate_slug_and_add_to_db(original_url: str) -> str:
+    async def __generate_slug_and_save_pair(original_url: str) -> str:
         slug = await generate_random_slug()
         await add_pair(original_url, slug)
         return slug
 
-    if is_valid_url(original_url) is False:
+    if not is_valid_url(original_url):
         raise InvalidURL_Error
 
     for attempt in range(5):
         try:
-            slug = await __generate_slug_and_add_to_db(original_url)
+            slug = await __generate_slug_and_save_pair(original_url)
             return slug
         except SlugAlreadyExistsError as ex:
             if attempt == 4:

@@ -20,8 +20,8 @@ async def index_page():
     return {"message": "hello world"}
 
 
-@app.post("/short_url")
-async def generate_short_url(original_url: str = Body(embed=True)):
+@app.post("/slug")
+async def process_url_pair(original_url: str = Body(embed=True)):
     try:
         slug = await make_urls_pair(original_url)
     except InvalidURL_Error:
