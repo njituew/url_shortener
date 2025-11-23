@@ -15,6 +15,7 @@ async def add_pair(orig_url: str, slug: str, session: AsyncSession):
     try:
         await session.commit()
     except IntegrityError:
+        await session.rollback()
         raise SlugAlreadyExistsError
 
 
@@ -27,7 +28,6 @@ async def get_original_url(slug: str, session: AsyncSession) -> str | None:
 
 
 async def clear_all_pairs(session: AsyncSession):
-    # async with session() as s:
     stmt = delete(URL_Pair)
-    await session.commit()
     await session.execute(stmt)
+    await session.commit()
