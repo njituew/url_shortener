@@ -27,11 +27,6 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-async def index_page():
-    return {"message": "hello world"}
-
-
 @app.post("/slug")
 async def process_url_pair(
     original_url: Annotated[str, Body(embed=True)],
