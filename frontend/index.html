@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>URL Shortener</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>URL Shortener</h1>
+    <form id="urlForm">
+      <input
+        type="url"
+        id="originalUrl"
+        name="originalUrl"
+        placeholder="Введите оригинальный URL"
+        required
+        autocomplete="off"
+      />
+      <button type="submit">Сократить</button>
+    </form>
+    <div id="result" class="hidden">
+      <p>Сокращённый URL: <a id="shortUrl" href="#" target="_blank" rel="noopener"></a></p>
+    </div>
+    <div id="error" class="hidden"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

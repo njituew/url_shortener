@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Body, status, HTTPException
 from fastapi.responses import RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.lifespan import lifespan
 from src.service import make_urls_pair, get_url_by_slug
@@ -13,6 +14,13 @@ from db.crud import clear_all_pairs
 
 
 app = FastAPI(lifespan=lifespan)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
@@ -38,7 +46,7 @@ async def process_url_pair(original_url: str = Body(embed=True)):
     return {"slug": slug, "original_url": f"{original_url}"}
 
 
-@app.get("/redirect/{slug}")
+@app.get("/{slug}")
 async def redirect_on_original(slug: str):
     try:
         original_url = await get_url_by_slug(slug)
