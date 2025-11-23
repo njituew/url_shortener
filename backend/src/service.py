@@ -11,10 +11,6 @@ from sqlalchemy.exc import IntegrityError
 
 
 async def make_urls_pair(original_url: str, session: AsyncSession) -> str:
-    """Генерирует новый slug для URL и сохраняет пару.
-    Делает до 5 попыток, если возникают коллизии slug.
-    """
-
     if not is_valid_url(original_url):
         raise InvalidURL_Error
 

@@ -9,7 +9,6 @@ from src.exception import SlugAlreadyExistsError
 
 
 async def add_pair(orig_url: str, slug: str, session: AsyncSession):
-    # async with session() as s:
     new_data = URL_Pair(slug=slug, original_url=orig_url)
     session.add(new_data)
     try:
@@ -20,7 +19,6 @@ async def add_pair(orig_url: str, slug: str, session: AsyncSession):
 
 
 async def get_original_url(slug: str, session: AsyncSession) -> str | None:
-    # async with session() as s:
     query = select(URL_Pair).where(URL_Pair.slug == slug)
     result = await session.execute(query)
     res: URL_Pair | None = result.scalar_one_or_none()
