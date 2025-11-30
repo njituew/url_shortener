@@ -47,7 +47,7 @@ form {
   gap: 0.75rem;
 }
 
-input[type="url"] {
+#originalUrl {
   flex: 1;
   padding: 0.75rem 1rem;
   font-size: 1rem;
@@ -59,7 +59,7 @@ input[type="url"] {
   transition: border-color 0.3s ease;
 }
 
-input[type="url"]:focus {
+#originalUrl:focus {
   border-color: var(--accent-color);
 }
 
