@@ -1,0 +1,11 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Копируем фронтенд
+COPY frontend/ .
+
+# Указываем рабочую директорию
+WORKDIR /app
+
+CMD ["python3", "-m", "http.server", "3000"]

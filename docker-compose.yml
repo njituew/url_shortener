@@ -9,6 +9,46 @@ services:
       - "6432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:  # Добавляем healthcheck
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    working_dir: /app  # Добавляем working_dir
+    depends_on:
+      db:
+        condition: service_healthy  # Ждём готовности БД
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/postgres  # Исправляем протокол
+    command: >
+      sh -c "
+        echo 'Waiting for database to be ready...'
+        sleep 5  # Дополнительная задержка на всякий случай
+        uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+      "
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"
+    working_dir: /app  # Добавляем working_dir
+    depends_on:
+      - backend
+
 volumes:
   pgdata:
     driver: local
