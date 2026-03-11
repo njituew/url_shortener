@@ -69,9 +69,7 @@ async def redirect_on_original(
 
 
 @app.delete("/slugs/{slug}")
-async def delete_url(
-    slug: str, session: Annotated[AsyncSession, Depends(get_session)]
-):
+async def delete_url(slug: str, session: Annotated[AsyncSession, Depends(get_session)]):
     deleted = await delete_pair_by_slug(slug, session)
     if not deleted:
         raise HTTPException(
