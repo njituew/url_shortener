@@ -48,12 +48,17 @@ A web service for shortening long URLs, built with FastAPI backend and a simple 
 3. Click "Shorten"
 4. Copy the generated short URL
 
+![Index page](.github/assets/index_page.png)
+
+
 #### Saved links page (`saved_slugs.html`)
 1. Navigate to `http://localhost:3000/saved_slugs.html` or click the "Saved links" link on the main page
 2. View a table of all saved slug/URL pairs
 3. Click a slug to follow the short URL
 4. Delete individual entries using the "Delete" button next to each row
 5. Delete all saved links at once using the "Delete all" button
+
+![Index page](.github/assets/saved_links.png)
 
 ### API Usage
 
