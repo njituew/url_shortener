@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Сохранённые ссылки — URL Shortener</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="page-slugs">
+
+  <div class="slugs-layout">
+
+    <!-- Топбар -->
+    <header class="slugs-header">
+      <a href="index.html" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Назад
+      </a>
+      <h1 class="slugs-title">Сохранённые ссылки</h1>
+      <button id="deleteAllBtn" class="btn-danger-lg">Удалить все</button>
+    </header>
+
+    <!-- Статусы -->
+    <div id="loading" class="status-msg">
+      <span class="spinner"></span> Загрузка...
+    </div>
+    <div id="emptyMsg" class="status-msg hidden">Нет сохранённых ссылок.</div>
+    <div id="error" class="hidden error-msg"></div>
+
+    <!-- Таблица -->
+    <div id="tableWrap" class="table-wrap hidden">
+      <table class="slug-table">
+        <thead>
+          <tr>
+            <th class="col-index">#</th>
+            <th class="col-short">Slug</th>
+            <th class="col-original">Оригинальный URL</th>
+            <th class="col-action"></th>
+          </tr>
+        </thead>
+        <tbody id="slugTableBody"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script src="saved_slugs.js"></script>
+</body>
+</html>

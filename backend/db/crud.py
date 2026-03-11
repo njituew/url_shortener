@@ -1,4 +1,3 @@
-# from db.database import session
 from db.models import URL_Pair
 
 from sqlalchemy import select, delete
@@ -25,7 +24,21 @@ async def get_original_url(slug: str, session: AsyncSession) -> str | None:
     return res.original_url if res and res.original_url else None
 
 
-async def clear_all_pairs(session: AsyncSession):
+async def get_all_pairs(session: AsyncSession) -> list[URL_Pair]:
+    query = select(URL_Pair).order_by(URL_Pair.slug)
+    result = await session.execute(query)
+    return list(result.scalars().all())
+
+
+async def delete_pair_by_slug(slug: str, session: AsyncSession) -> bool:
+    """Удаляет пару по slug. Возвращает True если запись была найдена и удалена."""
+    query = delete(URL_Pair).where(URL_Pair.slug == slug).returning(URL_Pair.slug)
+    result = await session.execute(query)
+    await session.commit()
+    return result.fetchone() is not None
+
+
+async def delete_all_pairs(session: AsyncSession):
     stmt = delete(URL_Pair)
     await session.execute(stmt)
     await session.commit()

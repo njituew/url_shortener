@@ -10,7 +10,7 @@ from src.exception import (
     InvalidURL_Error,
 )
 from src.dependencies import get_session
-from db.crud import clear_all_pairs
+from db.crud import delete_all_pairs, get_all_pairs, delete_pair_by_slug
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -48,6 +48,12 @@ async def process_url_pair(
     return {"slug": slug, "original_url": f"{original_url}"}
 
 
+@app.get("/slugs")
+async def get_all_slugs(session: Annotated[AsyncSession, Depends(get_session)]):
+    pairs = await get_all_pairs(session)
+    return [{"slug": p.slug, "original_url": p.original_url} for p in pairs]
+
+
 @app.get("/{slug}")
 async def redirect_on_original(
     slug: str, session: Annotated[AsyncSession, Depends(get_session)]
@@ -62,8 +68,20 @@ async def redirect_on_original(
     return RedirectResponse(url=original_url, status_code=status.HTTP_302_FOUND)
 
 
-# TODO: admin handler?
-@app.delete("/clear_urls")
-async def clear_all_urls(session: Annotated[AsyncSession, Depends(get_session)]):
-    await clear_all_pairs(session)
+@app.delete("/slugs/{slug}")
+async def delete_url(
+    slug: str, session: Annotated[AsyncSession, Depends(get_session)]
+):
+    deleted = await delete_pair_by_slug(slug, session)
+    if not deleted:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Slug not found",
+        )
+    return {"message": f"Slug '{slug}' deleted successfully."}
+
+
+@app.delete("/slugs")
+async def delete_all_urls(session: Annotated[AsyncSession, Depends(get_session)]):
+    await delete_all_pairs(session)
     return {"message": "All URL pairs have been deleted from the database."}
