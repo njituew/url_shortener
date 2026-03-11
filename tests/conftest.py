@@ -2,9 +2,9 @@ import pytest
 
 from httpx import ASGITransport, AsyncClient
 
-from backend.main import app
-from backend.src.dependencies import get_session
-from backend.db.models import Base
+from src.dependencies import get_session  # единый путь через pythonpath=backend
+from main import app
+from db.models import Base
 
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -38,7 +38,7 @@ async def session():
 
 
 @pytest.fixture(scope="session")
-async def ac() -> AsyncGenerator[AsyncClient, None]:
+async def ac(setup_db) -> AsyncGenerator[AsyncClient, None]:  # явная зависимость от setup_db
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://test"
     ) as ac:
