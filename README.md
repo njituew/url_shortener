@@ -133,17 +133,12 @@ curl -X DELETE "http://localhost:8000/slugs"
 
 ## Testing
 
-Run the test suite:
+Run tests locally (requires Python and dependencies):
 
 ```bash
-docker-compose exec backend pytest
-```
-
-Or run tests locally (requires Python and dependencies):
-
-```bash
-cd backend
-pip install -r ../requirements.txt
+python -m venv venv
+source venv/bin/activate    # macOS, Linux
+pip install -r requirements.txt
 pytest
 ```
 
