@@ -17,7 +17,7 @@ async function fetchSlugs() {
     const pairs = await response.json();
     renderTable(pairs);
   } catch {
-    showError('Не удалось загрузить ссылки. Проверьте соединение.');
+    showError('Failed to load links. Check your connection.');
   } finally {
     showLoading(false);
   }
@@ -58,7 +58,7 @@ function renderTable(pairs) {
         </div>
       </td>
       <td class="col-action">
-        <button class="btn-row-delete" data-slug="${escapeHtml(slug)}">Удалить</button>
+        <button class="btn-row-delete" data-slug="${escapeHtml(slug)}">Delete</button>
       </td>
     `;
 
@@ -88,19 +88,19 @@ async function handleDeleteOne(slug) {
       }, 200);
     }
   } catch {
-    showError(`Не удалось удалить slug "${slug}". Попробуйте ещё раз.`);
+    showError(`Failed to delete slug "${slug}". Please try again.`);
   }
 }
 
 async function handleDeleteAll() {
-  if (!confirm('Удалить все сохранённые ссылки? Это действие необратимо.')) return;
+  if (!confirm('Delete all saved links? This action cannot be undone.')) return;
 
   try {
     const response = await fetch(`${API_BASE_URL}/slugs`, { method: 'DELETE' });
     if (!response.ok) throw new Error();
     renderTable([]);
   } catch {
-    showError('Не удалось удалить все ссылки. Попробуйте ещё раз.');
+    showError('Failed to delete all links. Please try again.');
   }
 }
 

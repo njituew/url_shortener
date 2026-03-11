@@ -5,15 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const shortUrlAnchor = document.getElementById('shortUrl');
   const errorDiv = document.getElementById('error');
 
-  // Константы для сообщений
   const ERROR_MESSAGES = {
-    EMPTY_URL: 'Пожалуйста, введите URL',
-    INVALID_URL: 'Некорректный URL',
-    SERVER_ERROR: 'Произошла внутренняя ошибка сервера. Попробуйте ещё раз.',
-    NETWORK_ERROR: 'Не удалось отправить запрос. Проверьте соединение.',
+    EMPTY_URL: 'Please enter a URL',
+    INVALID_URL: 'Invalid URL',
+    SERVER_ERROR: 'An internal server error occurred. Please try again.',
+    NETWORK_ERROR: 'Failed to send request. Check your connection.',
   };
 
-  // Константы для API
   const API_BASE_URL = 'http://localhost:8000';
 
   form.addEventListener('submit', async (e) => {
@@ -21,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resetUI();
 
     const originalUrl = originalUrlInput.value.trim();
-    
+
     if (!originalUrl) {
       showError(ERROR_MESSAGES.EMPTY_URL);
       return;
@@ -54,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function handleErrorResponse(response) {
     const errorData = await response.json().catch(() => ({}));
     const errorMessage = errorData.detail || response.statusText;
-    
+
     switch (response.status) {
       case 400:
         showError(`${ERROR_MESSAGES.INVALID_URL}: ${errorMessage}`);
@@ -63,14 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
         showError(ERROR_MESSAGES.SERVER_ERROR);
         break;
       default:
-        showError(`Ошибка: ${errorMessage}`);
+        showError(`Error: ${errorMessage}`);
     }
   }
 
   async function handleSuccessResponse(response) {
     const data = await response.json();
     const shortUrl = `${API_BASE_URL}/${encodeURIComponent(data.slug)}`;
-    
+
     shortUrlAnchor.textContent = shortUrl;
     shortUrlAnchor.href = shortUrl;
     resultDiv.classList.remove('hidden');

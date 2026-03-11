@@ -6,6 +6,8 @@ A web service for shortening long URLs, built with FastAPI backend and a simple 
 
 - Shorten long URLs into compact slugs
 - Redirect to original URLs using the generated slugs
+- View all saved slug/URL pairs on a dedicated page
+- Delete individual slugs or clear all at once via the web interface
 - RESTful API for URL shortening
 - Web interface for easy URL shortening
 - Docker containerization for seamless deployment
@@ -40,10 +42,18 @@ A web service for shortening long URLs, built with FastAPI backend and a simple 
 
 ### Web Interface
 
+#### Main page (`index.html`)
 1. Open `http://localhost:3000` in your browser
 2. Enter a long URL in the input field
-3. Click "Сократить" (Shorten)
+3. Click "Shorten"
 4. Copy the generated short URL
+
+#### Saved links page (`saved_slugs.html`)
+1. Navigate to `http://localhost:3000/saved_slugs.html` or click the "Saved links" link on the main page
+2. View a table of all saved slug/URL pairs
+3. Click a slug to follow the short URL
+4. Delete individual entries using the "Delete" button next to each row
+5. Delete all saved links at once using the "Delete all" button
 
 ### API Usage
 
@@ -73,10 +83,30 @@ curl -L "http://localhost:8000/abc123"
 
 This will redirect to the original URL.
 
-#### Clear All URLs (Admin)
+#### Get All Saved URLs
 
 ```bash
-curl -X DELETE "http://localhost:8000/clear_urls"
+curl "http://localhost:8000/slugs"
+```
+
+Response:
+```json
+[
+  {"slug": "abc123", "original_url": "https://example.com"},
+  {"slug": "xyz789", "original_url": "https://another.com"}
+]
+```
+
+#### Delete a Specific Slug
+
+```bash
+curl -X DELETE "http://localhost:8000/slugs/abc123"
+```
+
+#### Clear All URLs
+
+```bash
+curl -X DELETE "http://localhost:8000/slugs"
 ```
 
 ## API Endpoints
@@ -88,7 +118,13 @@ curl -X DELETE "http://localhost:8000/clear_urls"
 - `GET /{slug}` - Redirect to original URL
   - Response: 302 redirect to original URL
 
-- `DELETE /clear_urls` - Clear all URL pairs (admin endpoint)
+- `GET /slugs` - Get all saved slug/URL pairs
+  - Response: `[{"slug": "string", "original_url": "string"}]`
+
+- `DELETE /slugs/{slug}` - Delete a specific slug
+  - Response: `{"message": "string"}`
+
+- `DELETE /slugs` - Clear all URL pairs
 
 ## Testing
 
@@ -125,8 +161,10 @@ url_shortener/
 │       └── lifespan.py      # Application lifespan events
 ├── frontend/
 │   ├── index.html           # Main page
-│   ├── style.css            # Styles
-│   └── script.js            # Frontend logic
+│   ├── saved_slugs.html     # Saved slugs list page
+│   ├── saved_slugs.js       # Saved slugs page logic
+│   ├── script.js            # Main page logic
+│   └── style.css            # Styles
 ├── tests/                   # Test files
 ├── docker-compose.yml       # Docker Compose configuration
 ├── Dockerfile.backend       # Backend container
@@ -134,14 +172,6 @@ url_shortener/
 ├── requirements.txt         # Python dependencies
 └── README.md
 ```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## License
 
