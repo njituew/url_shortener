@@ -1,10 +1,11 @@
 import pytest
-from backend.src.url_validator import is_valid_url
+from src.url_validator import is_valid_url
 
 
 @pytest.mark.parametrize(
-    "test_input,expected",
+    "url,expected",
     [
+        # --- Валидные URL ---
         ("http://example.com", True),
         ("https://example.com", True),
         ("http://localhost", True),
@@ -12,13 +13,20 @@ from backend.src.url_validator import is_valid_url
         ("http://127.0.0.1:8000", True),
         ("https://sub.domain.example.com", True),
         ("https://example.com/path?query=123", True),
-        ("ftp://example.com", False),  # invalid scheme
-        ("example.com", False),  # missing scheme
-        ("http:/example.com", False),  # malformed scheme
-        ("http://", False),  # incomplete URL
-        ("", False),
-        ("http://example .com", False),
+        ("https://example.com/path/to/page", True),
+        ("https://example.com/path#anchor", True),
+        ("  https://example.com  ", True),  # strip() должен обрабатывать пробелы
+        # --- Невалидная схема ---
+        ("ftp://example.com", False),
+        ("javascript:alert(1)", False),
+        ("//example.com", False),
+        # --- Неправильный формат ---
+        ("example.com", False),  # нет схемы
+        ("http:/example.com", False),  # одинарный слеш
+        ("http://", False),  # нет хоста
+        ("", False),  # пустая строка
+        ("http://example .com", False),  # пробел в домене
     ],
 )
-def test_is_valid_url(test_input, expected):
-    assert is_valid_url(test_input) == expected
+def test_is_valid_url(url: str, expected: bool):
+    assert is_valid_url(url) == expected

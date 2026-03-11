@@ -38,7 +38,9 @@ async def session():
 
 
 @pytest.fixture(scope="session")
-async def ac(setup_db) -> AsyncGenerator[AsyncClient, None]:  # явная зависимость от setup_db
+async def ac(
+    setup_db,
+) -> AsyncGenerator[AsyncClient, None]:  # явная зависимость от setup_db
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://test"
     ) as ac:
