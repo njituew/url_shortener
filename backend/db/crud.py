@@ -31,7 +31,11 @@ async def get_all_pairs(session: AsyncSession) -> list[URL_Pair]:
 
 
 async def delete_pair_by_slug(slug: str, session: AsyncSession) -> bool:
-    """Удаляет пару по slug. Возвращает True если запись была найдена и удалена."""
+    """Deletes a pair by slug
+
+    Returns:
+        bool: True if the record was found and deleted
+    """
     query = delete(URL_Pair).where(URL_Pair.slug == slug).returning(URL_Pair.slug)
     result = await session.execute(query)
     await session.commit()
