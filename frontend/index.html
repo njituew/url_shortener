@@ -8,20 +8,21 @@
 </head>
 <body>
   <div class="container">
-    <h1>URL Shortener</h1>
+    <p class="wordmark">URL Shortener</p>
+    <h1>Сократи ссылку</h1>
     <form id="urlForm">
       <input
         type="text"
         id="originalUrl"
         name="originalUrl"
-        placeholder="Вставьте URL..."
+        placeholder="https://..."
         required
         autocomplete="off"
       />
       <button type="submit">Сократить</button>
     </form>
     <div id="result" class="hidden">
-      <p>Сокращённый URL: <a id="shortUrl" href="#" target="_blank" rel="noopener"></a></p>
+      <span>→</span><a id="shortUrl" href="#" target="_blank" rel="noopener"></a>
     </div>
     <div id="error" class="hidden"></div>
     <div class="divider"></div>

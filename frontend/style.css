@@ -1,275 +1,289 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap');
 
 :root {
-  --bg:            #0f0f0f;
-  --surface:       #181818;
-  --surface-2:     #1e1e1e;
-  --surface-3:     #242424;
-  --border:        #2a2a2a;
-  --border-light:  #333;
-  --text:          #e0e0e0;
-  --text-muted:    #666;
-  --text-sub:      #999;
-  --accent:        #03a9f4;
-  --accent-hover:  #0288d1;
-  --accent-dim:    rgba(3, 169, 244, 0.08);
-  --danger:        #e53935;
-  --danger-hover:  #c62828;
-  --danger-dim:    rgba(229, 57, 53, 0.08);
-  --error:         #ff6b6b;
-  --radius:        8px;
-  --radius-sm:     5px;
+  --bg:           #080808;
+  --surface:      #111;
+  --surface-2:    #161616;
+  --surface-3:    #1c1c1c;
+  --border:       #222;
+  --border-hover: #333;
+  --text:         #e8e8e8;
+  --text-muted:   #555;
+  --text-sub:     #888;
+  --accent:       #e8e8e8;
+  --accent-dim:   rgba(232,232,232,0.06);
+  --danger:       #f87171;
+  --danger-dim:   rgba(248,113,113,0.08);
+  --error:        #f87171;
+  --success:      #6ee7b7;
+  --radius:       6px;
+  --radius-sm:    4px;
+  --font:         'Geist', system-ui, sans-serif;
+  --font-mono:    'Geist Mono', 'Courier New', monospace;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background-color: var(--bg);
+  background: var(--bg);
   color: var(--text);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ═══════════════════════════════════
-   ГЛАВНАЯ СТРАНИЦА — index.html
-═══════════════════════════════════ */
+/* ─── INDEX PAGE ───────────────────────────────── */
 
 body:not(.page-slugs) {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1.5rem;
 }
 
 .container {
-  width: 90%;
-  max-width: 420px;
-  padding: 2rem;
-  background-color: var(--surface);
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.wordmark {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
 }
 
 h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--text);
   margin-bottom: 1.5rem;
+  line-height: 1.2;
 }
 
 form {
   display: flex;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 #originalUrl {
   flex: 1;
-  padding: 0.7rem 1rem;
-  font-size: 0.9rem;
-  font-family: inherit;
-  border: 1px solid var(--border-light);
+  height: 38px;
+  padding: 0 12px;
+  font-size: 13px;
+  font-family: var(--font);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  background-color: var(--surface-2);
   color: var(--text);
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.15s;
+  min-width: 0;
 }
 
 #originalUrl::placeholder { color: var(--text-muted); }
-#originalUrl:focus { border-color: var(--accent); }
+#originalUrl:focus { border-color: var(--border-hover); }
 
-/* Базовая кнопка */
+/* ─── BUTTONS ──────────────────────────────────── */
+
 button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  background-color: var(--accent);
-  border: none;
-  padding: 0 1.25rem;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  color: #fff;
-  font-family: inherit;
-  font-size: 0.875rem;
-  font-weight: 600;
+  gap: 6px;
+  height: 38px;
+  padding: 0 14px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
   white-space: nowrap;
-  transition: background-color 0.2s, opacity 0.2s;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
-button:hover  { background-color: var(--accent-hover); }
-button:focus  { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* Primary — белый */
+button[type="submit"] {
+  background: var(--text);
+  border-color: var(--text);
+  color: #080808;
+}
 
-/* Результат */
+button[type="submit"]:hover {
+  background: #fff;
+  border-color: #fff;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--text-sub);
+  outline-offset: 2px;
+}
+
+/* ─── RESULT ───────────────────────────────────── */
+
 #result {
-  margin-top: 1.25rem;
-  font-size: 0.875rem;
-  word-break: break-all;
+  margin-top: 16px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
   color: var(--text-sub);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  word-break: break-all;
 }
 
 #result a {
-  color: var(--accent);
+  color: var(--text);
   text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
 }
 
 #result a:hover { text-decoration: underline; }
 
 #error {
-  margin-top: 0.75rem;
+  margin-top: 10px;
+  font-size: 12px;
   color: var(--error);
-  font-size: 0.85rem;
-  font-weight: 500;
 }
 
 .hidden { display: none !important; }
 
-/* Разделитель */
+/* ─── DIVIDER & NAV ────────────────────────────── */
+
 .divider {
-  margin: 1.5rem 0 1.25rem;
+  margin: 20px 0;
   height: 1px;
   background: var(--border);
 }
 
-/* Кнопка «Сохранённые ссылки» — выглядит как кнопка, но это ссылка */
 .saved-link {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 40px;
-  background-color: transparent;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  color: var(--text-sub);
-  font-size: 0.875rem;
-  font-weight: 500;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: 12px;
   text-decoration: none;
-  transition: border-color 0.2s, color 0.2s, background-color 0.2s;
+  transition: color 0.15s;
 }
 
-.saved-link:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background-color: var(--accent-dim);
-}
+.saved-link:hover { color: var(--text); }
 
-/* ═══════════════════════════════════
-   СТРАНИЦА SAVED_SLUGS
-═══════════════════════════════════ */
+/* ─── SAVED SLUGS PAGE ─────────────────────────── */
 
 body.page-slugs {
   display: block;
 }
 
-/* Полноширинный layout — без карточки, просто паддинги */
 .slugs-layout {
-  width: 100%;
-  max-width: 1100px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 2rem 2.5rem 4rem;
+  padding: 48px 32px 80px;
 }
 
-/* Топбар */
+/* Header */
 .slugs-header {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  padding-bottom: 1.5rem;
-  margin-bottom: 1.75rem;
-  border-bottom: 1px solid var(--border);
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
-.slugs-title {
-  flex: 1;
-  font-size: 1.25rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin: 0;
-}
-
-/* Кнопка «Назад» */
 .back-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 4px;
   color: var(--text-muted);
+  font-size: 12px;
   text-decoration: none;
-  font-size: 0.875rem;
+  transition: color 0.15s;
+  margin-right: auto;
+  flex-shrink: 0;
+}
+
+.back-link:hover { color: var(--text); }
+
+.slugs-title {
+  font-size: 15px;
   font-weight: 500;
-  padding: 0.4rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
-  white-space: nowrap;
-}
-
-.back-link:hover {
+  letter-spacing: -0.02em;
   color: var(--text);
-  border-color: var(--border-light);
-  background-color: var(--surface-2);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-/* Кнопка «Удалить все» — крупнее */
+.slugs-header {
+  position: relative;
+}
+
+/* Danger button */
 .btn-danger-lg {
-  background-color: transparent;
-  border: 1px solid var(--danger);
-  color: var(--danger);
-  height: 40px;
-  padding: 0 1.25rem;
-  font-size: 0.875rem;
-  font-weight: 600;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  height: 30px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 500;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  font-family: inherit;
-  transition: background-color 0.2s, color 0.2s;
-  white-space: nowrap;
+  font-family: var(--font);
+  transition: color 0.15s, border-color 0.15s;
+  margin-left: auto;
 }
 
 .btn-danger-lg:hover {
-  background-color: var(--danger);
-  color: #fff;
+  color: var(--danger);
+  border-color: var(--border);
 }
 
-.btn-danger-lg:focus {
+.btn-danger-lg:focus-visible {
   outline: 2px solid var(--danger);
   outline-offset: 2px;
 }
 
-/* Статусные сообщения */
+/* Status messages */
 .status-msg {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 8px;
   color: var(--text-muted);
-  font-size: 0.9rem;
-  padding: 4rem 0;
+  font-size: 13px;
+  padding: 80px 0;
 }
 
 .error-msg {
   color: var(--error);
-  font-size: 0.875rem;
-  font-weight: 500;
-  padding: 1rem 0;
+  font-size: 12px;
+  padding: 12px 0;
 }
 
-/* Спиннер */
+/* Spinner */
 .spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--border-light);
-  border-top-color: var(--accent);
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--border-hover);
+  border-top-color: var(--text-sub);
   border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+  animation: spin 0.65s linear infinite;
   flex-shrink: 0;
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── Таблица ── */
+/* ─── TABLE ────────────────────────────────────── */
+
 .table-wrap {
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -280,76 +294,67 @@ body.page-slugs {
 .slug-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.875rem;
+  font-size: 13px;
   table-layout: fixed;
 }
 
-/* Заголовок */
 .slug-table thead tr {
-  background-color: var(--surface-2);
   border-bottom: 1px solid var(--border);
 }
 
 .slug-table th {
-  padding: 0.65rem 1rem;
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
+  padding: 9px 14px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   color: var(--text-muted);
   text-align: left;
+  text-transform: uppercase;
 }
 
-/* Строки */
 .slug-table tbody tr {
   border-bottom: 1px solid var(--border);
-  transition: background-color 0.12s;
+  transition: background 0.1s;
 }
 
 .slug-table tbody tr:last-child { border-bottom: none; }
-.slug-table tbody tr:hover { background-color: var(--surface-2); }
+.slug-table tbody tr:hover { background: var(--surface); }
 
 .slug-table td {
-  padding: 0.85rem 1rem;
+  padding: 11px 14px;
   vertical-align: middle;
 }
 
-/* Колонки */
-.col-index    { width: 52px; }
-.col-short    { width: 160px; }
-.col-original { /* остаток */ }
-.col-action   { width: 100px; text-align: right; }
+.col-index    { width: 48px; }
+.col-short    { width: 150px; }
+.col-original { /* fills */ }
+.col-action   { width: 80px; text-align: right; }
 
 .index-num {
-  font-size: 0.75rem;
+  font-size: 11px;
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
 }
 
-/* Slug — как тег/бейдж */
+/* Slug badge */
 .slug-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  background-color: var(--surface-3);
-  border: 1px solid var(--border-light);
-  border-radius: 4px;
-  padding: 0.2rem 0.55rem;
-  font-family: 'Courier New', monospace;
-  font-size: 0.82rem;
-  font-weight: 600;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
   color: var(--text);
   text-decoration: none;
-  transition: border-color 0.15s, color 0.15s;
+  transition: color 0.15s;
   white-space: nowrap;
 }
 
-.slug-badge:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
+.slug-badge:hover { color: var(--text-sub); }
 
-/* Иконка копирования */
 .slug-badge svg {
   opacity: 0;
   transition: opacity 0.15s;
@@ -358,44 +363,45 @@ body.page-slugs {
 
 .slug-badge:hover svg { opacity: 1; }
 
-/* Оригинальный URL */
+/* Original URL */
 .original-cell {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   min-width: 0;
 }
 
 .original-url {
-  color: var(--text-sub);
+  color: var(--text-muted);
   text-decoration: none;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
+  font-size: 12px;
   transition: color 0.15s;
-  font-size: 0.85rem;
 }
 
-.original-url:hover { color: var(--text); }
+.original-url:hover { color: var(--text-sub); }
 
-/* Кнопка удалить в строке */
+/* Row delete */
 .btn-row-delete {
-  background-color: transparent;
-  border: 1px solid transparent;
-  color: var(--text-muted);
-  height: 30px;
-  padding: 0 0.65rem;
-  font-size: 0.78rem;
+  background: transparent;
+  border: none;
+  color: transparent;
+  height: 26px;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 500;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  font-family: inherit;
-  font-weight: 500;
-  transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+  font-family: var(--font);
+  transition: color 0.15s;
+}
+
+.slug-table tbody tr:hover .btn-row-delete {
+  color: var(--text-muted);
 }
 
 .btn-row-delete:hover {
-  border-color: var(--danger);
-  color: var(--danger);
-  background-color: var(--danger-dim);
+  color: var(--danger) !important;
 }
